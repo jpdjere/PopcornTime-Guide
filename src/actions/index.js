@@ -49,6 +49,46 @@ export function deletePost(id, callback) {
   };
 }
 
+
+const getNumberOfPages = () => {
+  return new Promise(
+    (resolve, reject) => {
+      axios.get('https://tv-v2.api-fetch.website/movies').then((response) => {
+        console.log(response.data);
+        let numberOfPages = response.data.length;
+        let pageNumberArray = [...Array(numberOfPages).keys()];
+        //Borro el 0 en el primer lugar
+        pageNumberArray.shift();
+        resolve(pageNumberArray)
+      })
+    }).catch((e) => {
+      console.log(e);
+    })
+}
+
+const getMoviesPage = (item) => {
+  return new Promise(
+    (resolve, reject) => {
+
+      axios.get(`https://tv-v2.api-fetch.website/movies/${item}`).then((response) => {
+
+        if(!response){
+          console.log(`Error on item ${item}.`);
+        }
+        // console.log("res:",response.data)
+        let pageMovies = response.data;
+        allMovies = [...allMovies,...pageMovies];
+
+      })
+
+    })
+}
+
+
+
+
+/*
+
 let allMovies = [];
 const getAllMovies = () => {
   return new Promise(
@@ -99,3 +139,6 @@ function asyncFunction (item, cb) {
 
   }, 25);
 }
+
+
+*/
