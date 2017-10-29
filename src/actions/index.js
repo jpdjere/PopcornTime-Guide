@@ -1,5 +1,6 @@
 import axios from "axios";
 
+export const FETCH_PAGES_MOVIES = "fetch_pages_movies";
 export const FETCH_MOVIES = "fetch_movies";
 export const FETCH_MOVIE = "fetch_movie";
 export const DELETE_MOVIE = "delete_movie";
@@ -8,9 +9,21 @@ export const CREATE_MOVIE = "create_movie";
 const ROOT_URL = "http://reduxblog.herokuapp.com/api";
 const API_KEY = "?key=PAPERCLIP1234";
 
-export function fetchPosts() {
-  // const request = axios.get(`${ROOT_URL}/posts${API_KEY}`);
-  const movies = getAllMovies();
+/*-------------Busco el número de páginas de peliculas --------------*/
+export function fetchNumberOfPages() {
+  // numberPages es un array de 1 al numero de paginas
+  const numberPages = getNumberOfPages();
+  console.log("numberPages",numberPages);
+  return {
+    type: FETCH_PAGES_MOVIES,
+    payload: numberPages
+  };
+}
+
+/*-------------Busco las películas de una página --------------*/
+export function fetchMoviesPage(moviePage) {
+  // recordar que getMoviesPage devuelve una promesa que se guarda en movies y redux-promise se encarga de resolverla.
+  const movies = getMoviesPage(moviePage);
   console.log("movies",movies);
   return {
     type: FETCH_MOVIES,
@@ -65,26 +78,6 @@ const getNumberOfPages = () => {
       console.log(e);
     })
 }
-
-const getMoviesPage = (item) => {
-  return new Promise(
-    (resolve, reject) => {
-
-      axios.get(`https://tv-v2.api-fetch.website/movies/${item}`).then((response) => {
-
-        if(!response){
-          console.log(`Error on item ${item}.`);
-        }
-        // console.log("res:",response.data)
-        let pageMovies = response.data;
-        allMovies = [...allMovies,...pageMovies];
-
-      })
-
-    })
-}
-
-
 
 
 /*
@@ -142,3 +135,22 @@ function asyncFunction (item, cb) {
 
 
 */
+
+
+const getMoviesPage = (item) => {
+  return new Promise(
+    (resolve, reject) => {
+
+      axios.get(`https://tv-v2.api-fetch.website/movies/${item}`).then((response) => {
+
+        if(!response){
+          console.log(`Error on item ${item}.`);
+        }
+        // console.log("res:",response.data)
+        let pageMovies = response.data;
+        resolve(pageMovies);
+
+      })
+
+    })
+}

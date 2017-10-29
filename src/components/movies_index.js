@@ -3,27 +3,24 @@ import React, { Component } from "react";
 import LazyLoad from 'react-lazyload';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchPosts } from "../actions";
+import { fetchNumberOfPages } from "../actions";
+import MoviesPage from "./movies_page";
 
 
 /* <img src={post.images.banner} alt="Banner" style={{height:"50px",width:"auto"}}/> */
 class MoviesIndex extends Component {
   componentDidMount() {
-    this.props.fetchPosts();
+    this.props.fetchNumberOfPages();
   }
 
-  renderPosts() {
-    return _.map(this.props.posts, post => {
+  renderMovies() {
+    return _.map(this.props.pages, page => {
       return (
-        <li className="list-group-item" key={post._id}>
-          <Link to={`/posts/${post.id}`}>
-            <LazyLoad height={300}>
-              <div>
-                {post.title}
-              </div>
+
+            <LazyLoad height={2000} offset={-100} once className="list-group-item" key={page}>
+              <MoviesPage sentPage={page} />
             </LazyLoad>
-          </Link>
-        </li>
+
       );
     });
   }
@@ -33,12 +30,12 @@ class MoviesIndex extends Component {
       <div>
         <div className="text-xs-right">
           <Link className="btn btn-primary" to="/posts/new">
-            Add a Post
+            Add a Movie
           </Link>
         </div>
-        <h3>Posts</h3>
+        <h3>Movies</h3>
         <ul className="list-group">
-          {this.renderPosts()}
+          {this.renderMovies()}
         </ul>
       </div>
     );
@@ -46,7 +43,9 @@ class MoviesIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return { posts: state.posts };
+  return {
+    pages: state.movieGuide.numberOfPages
+  };
 }
 
-export default connect(mapStateToProps, { fetchPosts })(MoviesIndex);
+export default connect(mapStateToProps, { fetchNumberOfPages })(MoviesIndex);
