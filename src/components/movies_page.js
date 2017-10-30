@@ -14,13 +14,17 @@ class MoviesPage extends Component {
   renderPosts() {
     return _.map(this.props.movies, movie => {
       return (
-        <li className="list-group-item" key={movie._id} style={{display:"grid",gridGap: "10px",gridTemplateColumns: "50% 50%"}}>
+        <li className="list-group-item" key={movie._id} style={{display:"grid",gridGap: "10px",gridTemplateColumns: "50% 50%",gridTemplateRows: "10% 50% 20% 20%"}}>
 
               <div style={{gridColumn:"1 / 3",gridRow:"1 / 1"}}>
                 {movie.title}
               </div>
-              <img src={movie.images.banner} alt="banner" style={{gridColumn:"1 / 1",gridRow:"2 / 3"}}/>
-              <p style={{gridColumn:"2 / 3",gridRow:"2 / 3"}}>{movie.synopsis}</p>
+              {/* <img src={movie.images.banner} alt="banner" style={{gridColumn:"1 / 1",gridRow:"2 / 5"}}/> */}
+              <div style={{gridColumn:"2 / 3",gridRow:"2 / 3"}}>
+                <p>{movie.synopsis}</p>
+                {/* <p>Rating: {movie.rating.percentage} %</p> */}
+                <p>Year of release: {movie.year}</p>
+              </div>
 
 
 

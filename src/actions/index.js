@@ -13,7 +13,7 @@ const API_KEY = "?key=PAPERCLIP1234";
 export function fetchNumberOfPages() {
   // numberPages es un array de 1 al numero de paginas
   const numberPages = getNumberOfPages();
-  console.log("numberPages",numberPages);
+  // console.log("numberPages",numberPages); son promesas
   return {
     type: FETCH_PAGES_MOVIES,
     payload: numberPages
@@ -24,7 +24,7 @@ export function fetchNumberOfPages() {
 export function fetchMoviesPage(moviePage) {
   // recordar que getMoviesPage devuelve una promesa que se guarda en movies y redux-promise se encarga de resolverla.
   const movies = getMoviesPage(moviePage);
-  console.log("movies",movies);
+  // console.log("movies",movies); son promesas
   return {
     type: FETCH_MOVIES,
     payload: movies
