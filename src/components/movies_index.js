@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import LazyLoad from 'react-lazyload';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchNumberOfPages } from "../actions";
+import { fetchNumberOfPages, fetchAllMovies } from "../actions";
 import MoviesPage from "./movies_page";
 
 
@@ -29,9 +29,11 @@ class MoviesIndex extends Component {
     return (
       <div>
         <div className="text-xs-right">
-          <Link className="btn btn-primary" to="/posts/new">
-            Add a Movie
-          </Link>
+          <button className="btn btn-primary" onClick={() => {
+            this.props.fetchAllMovies(this.props.pages);
+          }}>
+            Get all movies on state
+          </button>
         </div>
         <h3>Movies</h3>
         <ul className="list-group">
@@ -48,4 +50,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { fetchNumberOfPages })(MoviesIndex);
+export default connect(mapStateToProps, { fetchNumberOfPages, fetchAllMovies })(MoviesIndex);
