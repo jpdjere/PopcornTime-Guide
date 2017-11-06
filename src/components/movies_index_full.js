@@ -3,14 +3,17 @@ import React, { Component } from "react";
 import LazyLoad from 'react-lazyload';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchNumberOfPages } from "../actions";
+import { fetchNumberOfPages, fetchAllMovies } from "../actions";
 import MoviesPage from "./movies_page";
 
 
 /* <img src={post.images.banner} alt="Banner" style={{height:"50px",width:"auto"}}/> */
-class MoviesIndex extends Component {
+class MoviesIndexFull extends Component {
   componentDidMount() {
-    this.props.fetchNumberOfPages(this.props.pages);
+    this.props.fetchAllMovies();
+    setTimeout(function () {
+      this.props.fetchAllMovies(this.props.pages);
+    }, 2000);
   }
 
   renderMovies() {
@@ -28,6 +31,14 @@ class MoviesIndex extends Component {
   render() {
     return (
       <div>
+        <div className="text-xs-right">
+          <button className="btn btn-primary" onClick={() => {
+            // Recordar que fetchAllMovies necesita the las pages porque asi funciona la API
+            this.props.fetchAllMovies(this.props.pages);
+          }}>
+            Get all movies on state
+          </button>
+        </div>
         <h3>Movies</h3>
         <ul className="list-group">
           {this.renderMovies()}
@@ -39,8 +50,8 @@ class MoviesIndex extends Component {
 
 function mapStateToProps(state) {
   return {
-    pages: state.movieGuide.numberOfPages
+    movies: state.movieGuide.allMovies
   };
 }
 
-export default connect(mapStateToProps, { fetchNumberOfPages })(MoviesIndex);
+export default connect(mapStateToProps, { fetchAllMovies })(MoviesIndexFull);
