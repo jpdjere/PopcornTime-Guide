@@ -15,12 +15,12 @@ class MoviesBlock extends Component {
   render() {
     return (
       <div>
-        <li className="list-group-item" style={{display:"grid",gridGap: "10px",gridTemplateColumns: "50% 50%",gridTemplateRows: "10% 50% 20% 20%"}}>
+        <li className="list-group-item" style={{display:"grid",gridGap: "10px",gridTemplateColumns: "50% 50%",gridTemplateRows: "10% 50% 20% 20%"}} key={this.props.movie._id}>
 
               <div style={{gridColumn:"1 / 3",gridRow:"1 / 1"}}>
                 {this.props.movie.title}
               </div>
-              {/* <img src={movie.images.banner} alt="banner" style={{gridColumn:"1 / 1",gridRow:"2 / 5"}}/> */}
+              <img src={this.props.movie.images.banner} alt="banner" style={{gridColumn:"1 / 1",gridRow:"2 / 5"}}/>
               <div style={{gridColumn:"2 / 3",gridRow:"2 / 3"}}>
                 <p>{this.props.movie.synopsis}</p>
                 {/* <p>Rating: {movie.rating.percentage} %</p> */}

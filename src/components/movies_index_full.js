@@ -17,7 +17,7 @@ class MoviesIndexFull extends Component {
     return _.map(this.props.movies, movie => {
       return (
 
-            <LazyLoad height={2000} offset={20} once className="list-group-item" key={movie._id}>
+            <LazyLoad height={2000} offset={20} once  debounce={100} className="list-group-item">
               <MoviesBlock movie={movie} />
             </LazyLoad>
 
