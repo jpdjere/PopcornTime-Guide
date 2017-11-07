@@ -10,8 +10,10 @@ export default function(state = {movies:{}}, action) {
 
 
     case FETCH_ALL_MOVIES:
-      console.log("ALLMOVIES",_.flatten(action.payload));
-      return { ...state, allMovies:_.flatten(action.payload) };
+      // console.log("ALLMOVIES",_.mapKeys(action.payload, "_id"));
+      console.log(action.payload);
+      let orderedArray = _.orderBy(action.payload, ['year']);
+      return { ...state, allMovies:orderedArray};
 
 
     case FETCH_MOVIES:

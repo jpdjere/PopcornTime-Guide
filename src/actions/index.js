@@ -23,16 +23,21 @@ export function fetchNumberOfPages() {
 }
 
 /*-------------Busco TODAS LAS PELICULAS --------------*/
-export function fetchAllMovies(pages) {
-  let promiseArray =  pages.map(page => {
-    return getMoviesPage(page);
-  })
+export function fetchAllMovies() {
+  // Redux Thunk will inject dispatch here:
+  return dispatch => {
 
-  console.log("promiseArray",promiseArray);
-  return {
-    type: FETCH_ALL_MOVIES,
-    payload: Promise.all(promiseArray)
-  };
+    getAllMovies().then((data) => {
+      //getAllMovies devuelve un array de Promesas. Una vez que resuelven todas lo mando
+      Promise.all(data).then((allMovies) => {
+
+        console.log(_.flatten(allMovies));
+        return dispatch({ type: FETCH_ALL_MOVIES, payload:_.flatten(allMovies) })
+      })
+    })
+
+
+  }
 }
 
 /*-------------Busco las películas de una página --------------*/
@@ -111,4 +116,32 @@ const getMoviesPage = (item) => {
       })
 
     })
+}
+
+const getAllMovies = () => {
+  return new Promise(
+    (resolve, reject) => {
+
+      let allMovies;
+      getNumberOfPages().then((arrayOfPages) => {
+        allMovies = arrayOfPages.map((page) => {
+          return getMoviesPage(page);
+        })
+        // console.log("inside getAllMovies",allMovies);
+        resolve(allMovies)
+      })
+
+
+    })
+}
+
+
+const sortObjectOfObjectsToArray = (data, sortBy) => {
+  return _(data)
+    .map(function(value, key) {
+      return _.defaults({ sortBy: key }, value);
+    })
+    .sortBy(sortBy)
+    .value();
+
 }

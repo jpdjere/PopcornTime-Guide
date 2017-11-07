@@ -10,7 +10,7 @@ import MoviesPage from "./movies_page";
 /* <img src={post.images.banner} alt="Banner" style={{height:"50px",width:"auto"}}/> */
 class MoviesIndex extends Component {
   componentDidMount() {
-    this.props.fetchNumberOfPages(this.props.pages);
+    this.props.fetchNumberOfPages();
   }
 
   renderMovies() {
