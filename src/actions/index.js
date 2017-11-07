@@ -7,6 +7,7 @@ export const FETCH_MOVIES = "fetch_movies";
 export const FETCH_MOVIE = "fetch_movie";
 export const DELETE_MOVIE = "delete_movie";
 export const CREATE_MOVIE = "create_movie";
+export const UPDATE_FILTER = "update_filter";
 
 const ROOT_URL = "http://reduxblog.herokuapp.com/api";
 const API_KEY = "?key=PAPERCLIP1234";
@@ -50,6 +51,25 @@ export function fetchMoviesPage(moviePage) {
     payload: movies
   };
 }
+
+/*-------------UPDATEO el filtro sort --------------*/
+export function toggleFilter(sortOrder) {
+
+  return {
+    type: UPDATE_FILTER,
+    payload: sortOrder
+  };
+}
+
+
+
+
+
+
+
+
+
+
 
 export function createPost(values, callback) {
   const request = axios

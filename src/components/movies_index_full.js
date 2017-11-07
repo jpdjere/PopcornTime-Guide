@@ -3,12 +3,13 @@ import React, { Component } from "react";
 import LazyLoad from 'react-lazyload';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchNumberOfPages, fetchAllMovies } from "../actions";
+import { fetchNumberOfPages, fetchAllMovies, toggleFilter } from "../actions";
 import MoviesBlock from "./movies_block";
 
 
 /* <img src={post.images.banner} alt="Banner" style={{height:"50px",width:"auto"}}/> */
 class MoviesIndexFull extends Component {
+
   componentDidMount() {
     this.props.fetchAllMovies();
   }
@@ -25,10 +26,19 @@ class MoviesIndexFull extends Component {
     });
   }
 
+  toggleSortOrder() {
+    this.props.toggleFilter(this.state.sortOrder);
+  }
+
+
   render() {
     return (
       <div>
-
+        <div className="text-xs-right">
+          <button className="btn btn-primary" onClick={() => {this.toggleSortOrder()}}>
+            Reorder
+          </button>
+        </div>
         <h3>Movies</h3>
         <ul className="list-group">
           {this.renderMovies()}
@@ -36,12 +46,14 @@ class MoviesIndexFull extends Component {
       </div>
     );
   }
+
 }
 
 function mapStateToProps(state) {
   return {
-    movies: state.movieGuide.allMovies
+    movies: state.movieGuide.allMovies,
+    sortOrder: state.movieGuide.sortOrder
   };
 }
 
-export default connect(mapStateToProps, { fetchAllMovies })(MoviesIndexFull);
+export default connect(mapStateToProps, { fetchAllMovies, toggleFilter })(MoviesIndexFull);

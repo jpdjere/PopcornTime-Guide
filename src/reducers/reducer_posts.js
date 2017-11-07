@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { FETCH_PAGES_MOVIES, FETCH_ALL_MOVIES, FETCH_MOVIES, FETCH_MOVIE, DELETE_MOVIE } from "../actions";
+import { FETCH_PAGES_MOVIES, FETCH_ALL_MOVIES, FETCH_MOVIES, FETCH_MOVIE, DELETE_MOVIE, UPDATE_FILTER } from "../actions";
 
-export default function(state = {movies:{}}, action) {
+export default function(state = {movies:{},sortOrder:true}, action) {
   switch (action.type) {
 
     case FETCH_PAGES_MOVIES:
@@ -28,6 +28,9 @@ export default function(state = {movies:{}}, action) {
         }
       };
 
+
+    case UPDATE_FILTER:
+      return {...state,sortOrder:!action.payload}
 
     case DELETE_MOVIE:
       return _.omit(state, action.payload);
