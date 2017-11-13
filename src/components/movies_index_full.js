@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import { fetchNumberOfPages, fetchAllMovies, toggleFilter } from "../actions";
 import MoviesBlock from "./movies_block";
 
-
-/* <img src={post.images.banner} alt="Banner" style={{height:"50px",width:"auto"}}/> */
 class MoviesIndexFull extends Component {
 
   componentDidMount() {
@@ -15,19 +13,27 @@ class MoviesIndexFull extends Component {
   }
 
   renderMovies() {
-    return _.map(this.props.movies, movie => {
-      return (
+    let allMovies, filteredMovies;
+    if(this.props.movies){
+      allMovies = this.props.movies;
+      filteredMovies = allMovies.slice(0,300);
+      return _.map(filteredMovies, (movie,idx) => {
+        return (
+          <div>
 
-            <LazyLoad height={2000} offset={20} once  debounce={100} className="list-group-item">
-              <MoviesBlock movie={movie} />
-            </LazyLoad>
+          <p>{idx}</p>
+          <LazyLoad height={2000} offset={-20} once  debounce={50} className="list-group-item" key={Math.random()}>
+            <MoviesBlock movie={movie} />
+          </LazyLoad>
+        </div>
 
-      );
-    });
+        );
+      });
+    }
   }
 
   toggleSortOrder() {
-    this.props.toggleFilter(this.state.sortOrder);
+    this.props.toggleFilter(this.props.sortOrder);
   }
 
 

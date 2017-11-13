@@ -13,7 +13,8 @@ export default function(state = {movies:{},sortOrder:true}, action) {
       // console.log("ALLMOVIES",_.mapKeys(action.payload, "_id"));
       console.log(action.payload);
       let orderedArray = _.orderBy(action.payload, ['year']);
-      return { ...state, allMovies:orderedArray};
+      let allMoviesChunks = _.chunk(orderedArray, 50);
+      return { ...state, allMovies:orderedArray, allMoviesChunks:allMoviesChunks};
 
 
     case FETCH_MOVIES:
@@ -30,7 +31,17 @@ export default function(state = {movies:{},sortOrder:true}, action) {
 
 
     case UPDATE_FILTER:
-      return {...state,sortOrder:!action.payload}
+      //Si el sortBy que mando el usuario está en true, quiero pasar de 'asc' a 'desc'
+      let order, newSortOrder;
+      if(action.payload === true){
+        order = 'desc'
+        newSortOrder = false;
+      }else{
+        order = 'asc'
+        newSortOrder = true;
+      }
+      let filteredArray = _.orderBy(state.allMovies, ['year'], [order]);
+      return {...state,allMovies:filteredArray,sortOrder:newSortOrder}
 
     case DELETE_MOVIE:
       return _.omit(state, action.payload);
@@ -39,11 +50,3 @@ export default function(state = {movies:{},sortOrder:true}, action) {
       return state;
   }
 }
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
